@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>密碼學實驗室 · Fernet 與 RSA-PSS</title><link rel="stylesheet" href="styles.css"><script src="crypto.js" defer></script><script src="app.js" defer></script></head>
+<body>
+<header><a class="brand" href="#">CRYPTO / LAB<span>資訊安全課堂實作</span></a><span class="local">本機運算 · 無須上傳資料</span></header>
+<main><div class="intro"><p class="eyebrow">互動實驗 01—03</p><h1>親手修改資料，<br>觀察驗證結果。</h1><p>加密文字與圖片，或為訊息簽章。把密文改一個字元，再用正確金鑰試一次。</p></div>
+<div id="environment" role="alert" hidden></div>
+<nav class="tabs" aria-label="實驗選擇"><button id="tab-text" aria-selected="true" aria-controls="panel-text" data-tab="text">01　文字加密</button><button id="tab-image" aria-selected="false" aria-controls="panel-image" data-tab="image">02　圖片加密</button><button id="tab-sign" aria-selected="false" aria-controls="panel-sign" data-tab="sign">03　數位簽章</button></nav>
+<section id="panel-text" aria-labelledby="tab-text"></section><section id="panel-image" aria-labelledby="tab-image" hidden></section>
+<section id="panel-sign" aria-labelledby="tab-sign" hidden>
+<div class="section-head"><div><p class="eyebrow">RSA-PSS / SHA-256</p><h2>私鑰簽章，公鑰驗證</h2></div><button id="rsa-generate">產生 RSA 金鑰</button></div>
+<p class="hint">先簽章，再自行修改「待驗證文字」、簽章或公鑰。驗證只使用你目前填入的內容。</p>
+<div class="two"><div><label for="rsa-source">1. 簽署原文</label><textarea id="rsa-source" rows="4">我同意支付 100 元。</textarea><button id="rsa-sign" class="primary">使用私鑰簽章</button></div><div><label for="rsa-message">2. 待驗證文字（可自行竄改）</label><textarea id="rsa-message" rows="4" placeholder="簽章後會填入原文，可將 100 改成 1000。"></textarea><p id="rsa-diff" class="hint">尚未簽章</p></div></div>
+<label for="rsa-public">3. 驗證公鑰 PEM（可貼上另一把公鑰）</label><textarea id="rsa-public" class="mono" rows="5" spellcheck="false" placeholder="產生金鑰後顯示公鑰，私鑰保留於本次頁面記憶體。"></textarea>
+<label for="rsa-signature">4. 簽章 Base64（完整內容，可自行修改）</label><textarea id="rsa-signature" class="mono" rows="4" spellcheck="false"></textarea>
+<div class="actions"><button id="rsa-verify" class="primary">驗證目前內容</button><button id="rsa-restore">還原本次原文、公鑰與簽章</button></div><pre id="rsa-result" class="result" role="status" aria-live="polite">等待簽章與驗證。</pre>
+<details><summary>RSA-PSS 是什麼？</summary><p>RSA 2048-bit，私鑰簽章、公鑰驗證。SHA-256 計算訊息摘要，PSS 使用隨機鹽值。本實作用 222 bytes 鹽值，對應 2048-bit RSA 與 SHA-256 的 PSS.MAX_LENGTH。簽章不隱藏原文；驗證身分還需要可信的公鑰來源。</p></details>
+</section>
+<footer><p>教學金鑰可在畫面上查看。頁面不使用分析服務、CDN 或外部加密服務；重新整理會清除本次金鑰與資料。</p><a href="https://cryptography.io/en/latest/fernet/" target="_blank" rel="noreferrer">Fernet 文件</a><a href="https://cryptography.io/en/latest/hazmat/primitives/asymmetric/rsa/" target="_blank" rel="noreferrer">RSA-PSS 文件</a></footer></main>
+</body></html>
